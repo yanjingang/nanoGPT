@@ -1,9 +1,8 @@
 """
-Full definition of a GPT Language Model, all of it in this single file.
-References:
-1) the official GPT-2 TensorFlow implementation released by OpenAI:
+GPT 语言模型的定义参考：
+1）OpenAI官方发布的GPT-2 TensorFlow 实现：
 https://github.com/openai/gpt-2/blob/master/src/model.py
-2) huggingface/transformers PyTorch implementation:
+2) huggingface/transformers PyTorch 实现:
 https://github.com/huggingface/transformers/blob/main/src/transformers/models/gpt2/modeling_gpt2.py
 """
 
@@ -15,16 +14,15 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
-# @torch.jit.script # good to enable when not using torch.compile, disable when using (our default)
+# @torch.jit.script # 仅在不使用torch.compile时启用
 def new_gelu(x):
     """
-    Implementation of the GELU activation function currently in Google BERT repo (identical to OpenAI GPT).
-    Reference: Gaussian Error Linear Units (GELU) paper: https://arxiv.org/abs/1606.08415
+    Google BERT中实现的GELU激活函数（与 OpenAI GPT 相同）。参考：高斯误差线性单位（GELU）论文：https://arxiv.org/abs/1606.08415
     """
     return 0.5 * x * (1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (x + 0.044715 * torch.pow(x, 3.0))))
 
 class LayerNorm(nn.Module):
-    """ LayerNorm but with an optional bias. PyTorch doesn't support simply bias=False """
+    """  有一个可选偏差的LayerNorm。 PyTorch 不支持简单的 bias=False """
 
     def __init__(self, ndim, bias):
         super().__init__()
